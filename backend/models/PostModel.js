@@ -14,8 +14,9 @@ const postSchema = new mongoose.Schema({
         require: true,
         default: 'Anonymous'
     },
+    authorAvatar: String,
     attachment: String,
-    likedCount: {
+    likesCount: {
         type: String,
         default: 0
     }
