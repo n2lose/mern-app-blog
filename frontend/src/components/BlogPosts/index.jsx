@@ -13,7 +13,7 @@ export default function BlogPosts() {
   console.log('posts lists === ', posts)
 
   useEffect(()=> {
-    console.log('dispatch action ')
+    console.log('dispatch action get all posts')
     dispatch(actions.getPosts.getPostsRequest())
   }, [dispatch])
 

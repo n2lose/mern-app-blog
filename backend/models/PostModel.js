@@ -17,7 +17,7 @@ const postSchema = new mongoose.Schema({
     authorAvatar: String,
     attachment: String,
     likesCount: {
-        type: String,
+        type: Number,
         default: 0
     }
 }, {timestamps: true})

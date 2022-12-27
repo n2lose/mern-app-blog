@@ -25,9 +25,20 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     try {
         const updatePost = req.body;
-
+        
         const post = await PostModel.findOneAndUpdate({_id: updatePost._id}, updatePost, { new: true})
 
+        res.status(200).json(post)
+    } catch (err) {
+        res.status(500).json({error : err})
+    }
+}
+
+export const deletePost = async (req, res) => {
+    try {
+
+        const deletePostId = req.params.id;
+        const post = await PostModel.findOneAndDelete({_id: deletePostId})
         res.status(200).json(post)
     } catch (err) {
         res.status(500).json({error : err})

@@ -25,6 +25,8 @@ export default function CreatePostBlog() {
     const handleCreatePost = useCallback(()=> {
         console.log("data submit ==== ", data)
         dispatch(createPost.createPostRequest(data))
+        dispatch(hideModal())
+        setData({})
     }, [data, dispatch])
 
     const style = {

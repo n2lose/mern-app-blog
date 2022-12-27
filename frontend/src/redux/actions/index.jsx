@@ -1,7 +1,6 @@
 import { createActions, createAction } from 'redux-actions'
 
-export const getType = (reduxAction) => {
-    
+export const getType = (reduxAction) => {   
     return reduxAction().type
 }
 
@@ -16,6 +15,19 @@ export const createPost = createActions({
     createPostSuccess: (payload) => payload,
     createPostFailure: (err) => err
 })
+
+export const updatePost = createActions({
+    updatePostRequest: (payload) => payload,
+    updatePostSuccess: (payload) => payload,
+    updatePostFailure: (err) => err
+})
+
+export const deletePost = createActions({
+    deletePostRequest: (payload) => payload,
+    deletePostSuccess: (payload) => payload,
+    deletePostFailure: (err) => err
+})
+
 
 /*
 * createActions will create action creators

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -11,10 +10,35 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import dayjs from "dayjs";
+import { useDispatch } from 'react-redux';
+
+import * as actions from '../../../redux/actions'
+import { useCallback } from 'react';
+import { Menu, MenuItem } from '@mui/material';
+import { useState } from 'react';
 
 export default function Post({data}) {
+  const dispatch = useDispatch()
+
   const { title, createdAt, content, _id, likesCount, author, authorAvatar, attachment } = data
   const subTitle = dayjs(createdAt).format("MMMM YYYY, dddd")
+
+  const [anchorElement, setAnchorElement] = useState(null)
+
+  const handleLikeButnClick= useCallback(() => {
+    dispatch(actions.updatePost.updatePostRequest({...data, likesCount: data.likesCount + 1}))
+  }, [dispatch, data.likesCount])
+
+  const open = Boolean(anchorElement)
+  const handleOnClose = () => {
+    setAnchorElement(null)
+  }
+
+  const handleOnDelete = useCallback(()=> {
+    dispatch(actions.deletePost.deletePostRequest(_id))
+    setAnchorElement(null)
+  }, [dispatch, data])
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -22,9 +46,24 @@ export default function Post({data}) {
           <Avatar alt={author} src={authorAvatar} />
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <div>
+            <IconButton aria-label="settings" onClick={e => setAnchorElement(e.target)}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorElement}
+              open={open}
+              onClose={handleOnClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem onClick={handleOnClose}>Edit</MenuItem>
+              <MenuItem onClick={handleOnDelete}>Delete</MenuItem>
+              <MenuItem onClick={handleOnClose}>Sort by date</MenuItem>
+            </Menu>
+          </div>
         }
         title={title}
         subheader={subTitle}
@@ -41,7 +80,7 @@ export default function Post({data}) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={handleLikeButnClick}>
           <FavoriteIcon />
           <Typography component="span" color="text.secondary">{likesCount} Likes</Typography>
         </IconButton>    
