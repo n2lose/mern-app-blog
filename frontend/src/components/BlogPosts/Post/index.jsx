@@ -16,6 +16,8 @@ import * as actions from '../../../redux/actions'
 import { useCallback } from 'react';
 import { Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
+import { updatePost$ } from '../../../redux/selectors'
+
 
 export default function Post({data}) {
   const dispatch = useDispatch()
@@ -26,8 +28,9 @@ export default function Post({data}) {
   const [anchorElement, setAnchorElement] = useState(null)
 
   const handleLikeButnClick= useCallback(() => {
-    dispatch(actions.updatePost.updatePostRequest({...data, likesCount: data.likesCount + 1}))
-  }, [dispatch, data.likesCount])
+    console.log('updatePost$ ======== ', updatePost$)
+    dispatch(actions.updatePost.updatePostRequest({...data, likesCount: data.likesCount + 1}))    
+  }, [dispatch, data])
 
   const open = Boolean(anchorElement)
   const handleOnClose = () => {

@@ -27,16 +27,15 @@ export default function postsReducer(state = INIT_STATE.posts, action) {
             }
         }
         case getType(updatePost.updatePostRequest): {
-            console.log('likes count === ', action.payload)
             return {
                 ...state,
-                data: state.data.map(post => post._id === action.payload ? action.payload: post)
+                data: state.data.map(post => post._id === action.payload._id ? action.payload: post)
             }
         }
         case getType(deletePost.deletePostRequest): {
-            const newPostsList = state.data
+            const newPostsList = [...state.data]
             const index = newPostsList.findIndex(post => post._id === action.payload)
-            if(index > -1) newPostsList.splice(index, 1)            
+            if(index > -1) newPostsList.splice(index, 1)          
             return {
                 ...state,
                 data: newPostsList
